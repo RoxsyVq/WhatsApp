@@ -52,7 +52,7 @@ function initChatList() {
 }
 
 function setEventsChatList() {
-	var listaChats = document.getElementById('chat-list');
+	var listaChats = document.getElementById('lista-usuarios');
 	var arrListItems = listaChats.getElementsByTagName('li');
 
 	for (var i = 0; i < arrListItems.length; i++) {
@@ -104,6 +104,8 @@ function crearMensaje(_mensaje) {
 
 	var mensaje = liListItem.getElementsByClassName("w-last-message")[0];
 	mensaje.innerHTML = _mensaje;
+    
+    socket.emit('send',_mensaje);
 	console.log();
 
 
@@ -116,7 +118,7 @@ function crearListaChats() {
 
 }
 function crearChat(_mensaje) {
-	var elListaChats = document.getElementById("chat-list");
+	var elListaChats = document.getElementById("lista-usuarios");
 
 	if (liListItem == null) {
 		liListItem = document.createElement('LI');

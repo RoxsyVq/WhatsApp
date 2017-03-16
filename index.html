@@ -30,7 +30,7 @@
 	  				<div class="w-search icon-search">
 	  					<input type="text" placeholder="Buscar o empezar un chat nuevo" class="w-search-contacts" id="search">
 	  				</div>
-	  				<ul class="w-recent-chats" id="chat-list">
+	  				<ul class="w-recent-chats" id="lista-usuarios">
 	  					
 	  				</ul>
 	  			</aside>
@@ -163,12 +163,49 @@
 	  						</li>
 	  						<li class="col-xs-1 w-write-message-item icon-mic w-write-message-icon"></li>
 	  					</ul>
+	  					<input type="text" id=name>
+	  					<button id="btn-ingresar">ingresar</button>
+	  					
+	  					
 	  				</footer>
 	  			</section>
 	  		</div>
 	  	</div>
+	  	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 	  	<script src="http://services.geekadvice.pe:4000/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="backud.js"></script>
+		<script>
+            var socket;
+            window.onload=function(){
+                socket=io.connect('http://services.geekadvice.pe:4000');
+                
+                socket.on('list_users',function(_users){
+                    console.log(_users);
+                    drawUsers(_users);
+                    socket.on('new_user',function(_user){
+                       $('#lista-usuarios').append('<li>'+_user.name+'</li>');
+                    })
+                });
+                socket.on('new_message',function(_msg){
+                    console.log(_msg);
+                });
+                $('#btn-ingresar').click(identificar);
+            };
+            function identificar(){
+                socket.emit('identify',$('#name').val());
+            }
+        function drawUsers(_users)
+            {
+            var lista=$('#lista-usuarios');
+                for(var i in _users)
+                    {
+                        lista.append('<li>'+_users[i].name+'</li>')
+                    }
+            }
+            
+            
+        </script>
 	</body>
 </html>
 
